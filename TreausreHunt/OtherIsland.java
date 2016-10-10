@@ -1,15 +1,15 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Ship here.
+ * Write a description of class OtherIsland here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Ship extends Actor
+public class OtherIsland extends Island
 {
     /**
-     * Act - do whatever the Ship wants to do. This method is called whenever
+     * Act - do whatever the OtherIsland wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() 

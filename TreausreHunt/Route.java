@@ -1,15 +1,15 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Island here.
+ * Write a description of class Route here.
  * 
- * @author (your name) 
+ * @author (Rushikesh) 
  * @version (a version number or a date)
  */
-public class Island extends Actor
+public class Route extends Actor
 {
     /**
-     * Act - do whatever the Island wants to do. This method is called whenever
+     * Act - do whatever the Route wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() 
