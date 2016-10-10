@@ -12,6 +12,20 @@ public class RouteA extends Route
     
     public void act() 
     {
-        
+       if(Greenfoot.mouseClicked(this)){
+           if(this.islandRouteBelongsTo.getHasShip()){
+               TreasureHuntWorld treasureHuntWorld = (TreasureHuntWorld) getWorld();
+               treasureHuntWorld.getShip().moveToIsland(islandRouteBelongsTo.getNextIslandA());
+               this.islandRouteBelongsTo.setHasShip(false);
+            }
+        }
+    } 
+    
+    public void setIslandRouteBelongsTo(Island islandRouteBelongsTo){
+        this.islandRouteBelongsTo = islandRouteBelongsTo;
+    }
+    
+    public Island getIslandRouteBelongsTo(){
+        return this.islandRouteBelongsTo;
     }
 }
