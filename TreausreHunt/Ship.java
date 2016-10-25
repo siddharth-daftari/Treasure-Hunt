@@ -33,10 +33,12 @@ public class Ship extends Actor
             //logic for breaking the loop when ship is in vicinity of destination island
             islandList = getObjectsInRange(5,Island.class);
             if(!islandList.isEmpty() && islandList.get(0).getX() == destinationIsland.getX() && islandList.get(0).getY() == destinationIsland.getY()){
+            	 this.setRotation(0);
                  break;
             }
            
             //constantly adjust the path ship
+            this.setRotation(0);
             this.turnTowards(destinationIslandX,destinationIslandY);
             //move ship by mentioned number of steps
             move(SHIP_STEP);
