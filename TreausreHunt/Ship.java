@@ -4,13 +4,18 @@ import java.util.*;
 /**
  * Write a description of class Ship here.
  * 
- * @author (siddharth) 
+ * @author (Tanmay) 
  */
 public class Ship extends Actor
 {
+   
     private Island island;
-    private final int SHIP_STEP = 1;
-    
+    private final int SHIP_STEP = 3;
+    private String playerName = "";
+    public static final int INITAL_FUEL_LEFT = 10000;
+    public static final int LOW_FUEL_MARK = 1000;
+    public static final int MEDIUM_FUEL_MARK = 2000;
+    private int fuelLeft = INITAL_FUEL_LEFT;
     public void act() 
     {
         // Add your action code here.
