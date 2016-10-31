@@ -4,13 +4,18 @@ import java.util.*;
 /**
  * Write a description of class Ship here.
  * 
- * @author (siddharth) 
+ * @author (Tanmay) 
  */
 public class Ship extends Actor
 {
+   
     private Island island;
-    private final int SHIP_STEP = 1;
-    
+    private final int SHIP_STEP = 3;
+    private String playerName = "";
+    public static final int INITAL_FUEL_LEFT = 10000;
+    public static final int LOW_FUEL_MARK = 1000;
+    public static final int MEDIUM_FUEL_MARK = 2000;
+    private int fuelLeft = INITAL_FUEL_LEFT;
     public void act() 
     {
         // Add your action code here.
@@ -33,10 +38,12 @@ public class Ship extends Actor
             //logic for breaking the loop when ship is in vicinity of destination island
             islandList = getObjectsInRange(5,Island.class);
             if(!islandList.isEmpty() && islandList.get(0).getX() == destinationIsland.getX() && islandList.get(0).getY() == destinationIsland.getY()){
+            	 this.setRotation(0);
                  break;
             }
            
             //constantly adjust the path ship
+            this.setRotation(0);
             this.turnTowards(destinationIslandX,destinationIslandY);
             //move ship by mentioned number of steps
             move(SHIP_STEP);
