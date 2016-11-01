@@ -52,6 +52,58 @@ public class Ship extends Actor
         }
         islandList.get(0).setHasShip(true);
         this.island = destinationIsland;
+    } public void moveToIsland(Island destinationIsland,Route route){
+        
+        //fuel deduction and calculation
+        int fuelTempVar = fuelLeft - route.getFuelNeeded();
+        if(fuelTempVar > 0){
+            
+            Island sourceIsland = this.getIsland();
+            List<Island> islandList = null;
+            int sourceIslandX = sourceIsland.getX();
+            int sourceIslandY = sourceIsland.getY();
+            
+            int destinationIslandX = destinationIsland.getX();
+            int destinationIslandY = destinationIsland.getY();
+            
+            //calculating the distance between islands
+            int distance = (int)Math.sqrt(Math.pow(destinationIslandX - sourceIslandX, 2) + Math.pow(destinationIslandY - sourceIslandY, 2));
+             
+            for(int i=0;i<distance;i= i + SHIP_STEP){
+                 
+                //logic for breaking the loop when ship is in vicinity of destination island
+                islandList = getObjectsInRange(5,Island.class);
+                if(!islandList.isEmpty() && islandList.get(0).getX() == destinationIsland.getX() && islandList.get(0).getY() == destinationIsland.getY()){
+                    this.setRotation(0);
+                    break;
+                }
+                //constantly adjust the path ship
+                this.turnTowards(destinationIslandX,destinationIslandY);
+                //move ship by mentioned number of steps
+                move(SHIP_STEP);
+                //add delay of 1 timestep after each move
+                Greenfoot.delay(1);
+            }
+            islandList.get(0).setHasShip(true);
+            this.island = destinationIsland;
+            fuelLeft = fuelTempVar;
+            
+            //check if reached treaureIsland
+            if(this.island.getClass().getName().equalsIgnoreCase("TreasureIsland")){
+               this.island.setImage("Treasure.png");
+               this.island.getImage().scale(150,150);
+               Greenfoot.stop();
+            }
+            
+        }
+        else{
+            //display message and end the game
+            TreasureHuntWorld treasureHuntWorld = (TreasureHuntWorld) getWorld();
+            List<Message> messageList = treasureHuntWorld.getObjects(Message.class);
+            if(!messageList.isEmpty()){
+                messageList.get(0).setImage(new GreenfootImage("You do not have sufficient fuel to travel." , 15, Color.black, Color.RED));
+            }
+        }
     }
     
     public Island getIsland(){
