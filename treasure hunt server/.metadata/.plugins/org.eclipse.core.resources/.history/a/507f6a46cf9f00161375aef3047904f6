@@ -1,0 +1,19 @@
+import java.util.HashMap;
+import java.util.Map;
+
+public class Test {
+
+	public static void main(String[] args) {
+
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("sid",2);
+        map.put("aditya",2);
+        map.put("rushi",3);
+        map.put("gagan",4);
+        map.put("tanmay",5);
+        
+        
+
+	}
+
+}

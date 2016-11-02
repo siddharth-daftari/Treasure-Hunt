@@ -1,0 +1,16 @@
+import java.net.* ;
+import java.util.* ;
+import java.io.* ;
+import org.json.* ;
+import org.restlet.resource.*;
+import org.restlet.representation.* ;
+import org.restlet.ext.json.* ;
+import org.restlet.data.* ;
+
+public class TestClient {
+	String myURL = "http://localhost:8080/treasureHunt";
+	public static void main( String[] args ) 
+	   {
+		ClientResource client = new ClientResource( myURL ); 
+	   }
+}

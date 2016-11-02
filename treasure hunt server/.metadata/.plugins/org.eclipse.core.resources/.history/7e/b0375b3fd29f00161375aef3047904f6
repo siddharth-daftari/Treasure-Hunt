@@ -1,0 +1,25 @@
+import java.net.* ;
+import java.util.* ;
+import java.io.* ;
+import org.json.* ;
+import org.restlet.resource.*;
+import org.restlet.representation.* ;
+import org.restlet.ext.json.* ;
+import org.restlet.data.* ;
+
+public class TestClient {
+	
+	
+	public static void main( String[] args ) 
+	{
+		String myURL = "http://localhost:8080/treasureHunt";
+		ClientResource client = new ClientResource( myURL ); 
+		String result = "" ;
+		
+		// get scores
+        Representation scores = client.get() ; 
+        JSONObject json_count = new JSONObject( result_string.getText() ) ;
+        result = Integer.toString( (int)json_count.get("count") ) ;  
+        
+	}
+}

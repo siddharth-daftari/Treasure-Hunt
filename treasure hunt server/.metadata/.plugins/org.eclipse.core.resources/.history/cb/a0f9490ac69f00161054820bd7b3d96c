@@ -1,0 +1,13 @@
+package api;
+
+package api ;
+
+import org.json.* ;
+import org.restlet.representation.* ;
+import org.restlet.ext.json.* ;
+import org.restlet.resource.* ;
+import gumball.GumballMachine ;
+
+public class TreasureHuntResource extends ServerResource{
+
+}

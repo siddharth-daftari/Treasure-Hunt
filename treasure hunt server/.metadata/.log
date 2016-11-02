@@ -1,0 +1,128 @@
+!SESSION 2016-10-31 16:34:16.456 -----------------------------------------------
+eclipse.buildId=4.6.1.M20160907-1200
+java.version=1.8.0_111
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.jee.product -keyring /Users/siddharth/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.jee.product -keyring /Users/siddharth/.eclipse_keyring
+
+!ENTRY org.eclipse.core.net 1 0 2016-10-31 16:36:08.011
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY org.eclipse.jface.text 2 0 2016-10-31 16:44:31.934
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.number'
+
+!ENTRY org.eclipse.jface.text 2 0 2016-10-31 16:44:31.947
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.round'
+
+!ENTRY org.eclipse.jface.text 2 0 2016-10-31 16:44:32.132
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.number'
+
+!ENTRY org.eclipse.jface.text 2 0 2016-10-31 16:44:32.133
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.round'
+
+!ENTRY org.eclipse.jdt.ui 4 10001 2016-10-31 16:54:54.964
+!MESSAGE Internal Error
+!STACK 1
+Java Model Exception: Core Exception [code 275] A resource exists with a different case: '/TreasureHuntServer/src/TreasureHunt'.
+	at org.eclipse.jdt.internal.core.JavaModelOperation.createFolder(JavaModelOperation.java:293)
+	at org.eclipse.jdt.internal.core.CreatePackageFragmentOperation.executeOperation(CreatePackageFragmentOperation.java:89)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:724)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2240)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2267)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:795)
+	at org.eclipse.jdt.internal.core.PackageFragmentRoot.createPackageFragment(PackageFragmentRoot.java:302)
+	at org.eclipse.jdt.ui.wizards.NewTypeWizardPage.createType(NewTypeWizardPage.java:2091)
+	at org.eclipse.jdt.internal.ui.wizards.NewClassCreationWizard.finishPage(NewClassCreationWizard.java:65)
+	at org.eclipse.jdt.internal.ui.wizards.NewElementWizard$2.run(NewElementWizard.java:120)
+	at org.eclipse.jdt.internal.core.BatchOperation.executeOperation(BatchOperation.java:39)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:724)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2240)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2267)
+	at org.eclipse.jdt.core.JavaCore.run(JavaCore.java:5521)
+	at org.eclipse.jdt.internal.ui.actions.WorkbenchRunnableAdapter.run(WorkbenchRunnableAdapter.java:105)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:119)
+Caused by: org.eclipse.core.internal.resources.ResourceException: A resource exists with a different case: '/TreasureHuntServer/src/TreasureHunt'.
+	at org.eclipse.core.internal.resources.Resource.checkDoesNotExist(Resource.java:323)
+	at org.eclipse.core.internal.resources.Resource.checkDoesNotExist(Resource.java:301)
+	at org.eclipse.core.internal.resources.Folder.assertCreateRequirements(Folder.java:30)
+	at org.eclipse.core.internal.resources.Folder.create(Folder.java:93)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.createFolder(JavaModelOperation.java:287)
+	at org.eclipse.jdt.internal.core.CreatePackageFragmentOperation.executeOperation(CreatePackageFragmentOperation.java:89)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:724)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2240)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2267)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:795)
+	at org.eclipse.jdt.internal.core.PackageFragmentRoot.createPackageFragment(PackageFragmentRoot.java:302)
+	at org.eclipse.jdt.ui.wizards.NewTypeWizardPage.createType(NewTypeWizardPage.java:2091)
+	at org.eclipse.jdt.internal.ui.wizards.NewClassCreationWizard.finishPage(NewClassCreationWizard.java:65)
+	at org.eclipse.jdt.internal.ui.wizards.NewElementWizard$2.run(NewElementWizard.java:120)
+	at org.eclipse.jdt.internal.core.BatchOperation.executeOperation(BatchOperation.java:39)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:724)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2240)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2267)
+	at org.eclipse.jdt.core.JavaCore.run(JavaCore.java:5521)
+	at org.eclipse.jdt.internal.ui.actions.WorkbenchRunnableAdapter.run(WorkbenchRunnableAdapter.java:105)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:119)
+!SUBENTRY 1 org.eclipse.core.resources 4 275 2016-10-31 16:54:54.966
+!MESSAGE A resource exists with a different case: '/TreasureHuntServer/src/TreasureHunt'.
+!SESSION 2016-10-31 17:06:46.183 -----------------------------------------------
+eclipse.buildId=4.6.1.M20160907-1200
+java.version=1.8.0_111
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.jee.product -keyring /Users/siddharth/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.jee.product -keyring /Users/siddharth/.eclipse_keyring
+
+!ENTRY org.eclipse.core.net 1 0 2016-10-31 17:06:59.159
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY org.eclipse.jface.text 2 0 2016-10-31 17:22:27.046
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.number'
+
+!ENTRY org.eclipse.jface.text 2 0 2016-10-31 17:22:27.052
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.round'
+!SESSION 2016-10-31 17:58:09.028 -----------------------------------------------
+eclipse.buildId=4.6.1.M20160907-1200
+java.version=1.8.0_111
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.jee.product -keyring /Users/siddharth/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.jee.product -keyring /Users/siddharth/.eclipse_keyring
+
+!ENTRY org.eclipse.core.net 1 0 2016-10-31 17:58:23.220
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY org.eclipse.jface.text 2 0 2016-10-31 18:00:45.025
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.number'
+
+!ENTRY org.eclipse.jface.text 2 0 2016-10-31 18:00:45.033
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.round'
+
+!ENTRY org.eclipse.jface.text 2 0 2016-10-31 18:34:09.636
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.number'
+
+!ENTRY org.eclipse.jface.text 2 0 2016-10-31 18:34:09.639
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.round'
+!SESSION 2016-11-01 12:29:04.775 -----------------------------------------------
+eclipse.buildId=4.6.1.M20160907-1200
+java.version=1.8.0_111
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.jee.product -keyring /Users/siddharth/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.jee.product -keyring /Users/siddharth/.eclipse_keyring
+
+!ENTRY org.eclipse.core.net 1 0 2016-11-01 12:29:23.204
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY org.eclipse.jface.text 2 0 2016-11-01 13:48:42.930
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.number'
+
+!ENTRY org.eclipse.jface.text 2 0 2016-11-01 13:48:42.937
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.round'
+
+!ENTRY org.eclipse.jface.text 2 0 2016-11-01 14:18:57.250
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.number'
+
+!ENTRY org.eclipse.jface.text 2 0 2016-11-01 14:18:57.252
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.round'

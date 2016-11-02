@@ -1,0 +1,19 @@
+package treasureHunt;
+
+public class TreasureHunt {
+	private static TreasureHunt treasureHunt ;
+	
+	public static TreasureHunt getInstance() {
+		if (treasureHunt == null) {
+			treasureHunt = new TreasureHunt() ;
+			treasureHunt.init() ;
+			return treasureHunt ;
+		}
+		else {
+			return treasureHunt ;
+		}
+	}
+	
+	private void init() {
+	}
+}
