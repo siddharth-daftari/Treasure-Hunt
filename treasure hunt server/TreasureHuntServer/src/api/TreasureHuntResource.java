@@ -1,5 +1,7 @@
 package api;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.json.* ;
@@ -8,10 +10,12 @@ import org.restlet.ext.json.* ;
 import org.restlet.resource.* ;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import treasureHunt.TreasureHunt ;
+
 
 public class TreasureHuntResource extends ServerResource{
 	TreasureHunt treasureHunt = TreasureHunt.getInstance();
@@ -27,24 +31,44 @@ public class TreasureHuntResource extends ServerResource{
     	return new JsonRepresentation ( json ) ; 
     }
 
-/*
-    @Post
+   @Post
     public Representation post(JsonRepresentation jsonRep) {
 
-        JSONObject json = jsonRep.getJsonObject() ;
-        String action = json.getString("action") ;
-        System.out.println( "action: " + action ) ;
+        System.out.println("received objects.!!");
 
-        if ( action.equals( "insert-quarter") )
-        	treasureHunt.insertQuarter() ;
-        if ( action.equals( "turn-crank") )
-        	treasureHunt.turnCrank();
-
-        JSONObject response = new JSONObject() ;
-        String state = treasureHunt.getStateString() ;
-        response.put( "result", state ) ;
-
-        return new JsonRepresentation ( response ) ;
-
-    }*/
+        String playerName, fuel;
+        String requestedAction = (String) getRequest().getAttributes().get("param");
+        
+        JSONObject requestJSON = jsonRep.getJsonObject() ;
+        String responseJSON = "";
+        
+        
+        Map<String,Object> map = treasureHunt.getScoreMap();
+        ObjectMapper mapper = new ObjectMapper();
+        
+        
+        if(requestedAction.equalsIgnoreCase("updatescore")){
+            // String state = treasureHunt.getStateString() ;
+            System.out.println("The routing is okay as well.!!!!!!!!");
+            
+            // Updating a map setting new values
+            playerName = requestJSON.getString("playerName");
+            fuel = requestJSON.getString("fuelLeft");
+              
+            map.put(playerName, fuel);
+          
+            try {
+                // Converting map to JSON String
+                responseJSON = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
+                // pretty print
+                System.out.println("My response would be " + responseJSON);
+            } catch (JsonProcessingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        else{
+            System.out.println("NEED TO MODIFY THE CODE :(((");
+        }
+        return new JsonRepresentation(responseJSON);
 }
