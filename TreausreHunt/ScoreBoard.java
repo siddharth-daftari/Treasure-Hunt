@@ -1,68 +1,132 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.*;
 import java.awt.Color;
+import java.awt.Font;
+
+import java.net.* ;
+import java.util.* ;
+import java.io.* ;
+import org.json.* ;
+import org.restlet.resource.*;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.restlet.Uniform;
+import org.restlet.Request;
+import org.restlet.Response;
+import org.restlet.representation.* ;
+import org.restlet.ext.json.* ;
+import org.restlet.data.* ;
 
 public class ScoreBoard extends Actor
 {
-    Map<String,Integer> map = new HashMap();
-    /**
-     * Act - do whatever the ScoreBoard wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
-    public void act() 
-    {
-        String scoreboardTempString = "";
-        
-        //sorting and displying player names and scores 
-        Map<String, Integer> sortedMap = sortByValue(map);
-        
-        for(Map.Entry entry : sortedMap.entrySet()){
-            scoreboardTempString = scoreboardTempString + entry.getKey() + ": " + entry.getValue() + "\n";
-        }
-        this.setImage(new GreenfootImage(scoreboardTempString, 36, Color.black, Color.YELLOW));
-    }   
+    Map<String,String> map = new HashMap();
+    public static long currTime = 0;
+    public static boolean prevReqFinished = true;
+    public static String scoreboardTempString = "";
     
-    public void sortMap(){
+    public void act(){
+        if(System.currentTimeMillis() - currTime > 10000 && prevReqFinished){
         
+        prevReqFinished = false;
+        Thread myThread = new Thread ( 
+               new Runnable() 
+               {
+                    public void run() 
+                    {
+                         act1() ; 
+                    }
+               }
+         ) ;
+         try {
+         myThread.start() ;} catch ( Exception e ) {
+         System.out.println( "ERROR: " + e.getMessage() );
+      }
+        }
+    }
+    
+    
+    public synchronized void act1() 
+    {
+        //System.currentTimeMillis() - currTime > 5000
+        if(true){
+            scoreboardTempString = "";
+            
+            //code for fetching scores from server : start
+            String myURL = "http://localhost:8080/treasureHunt/getscore";
+            ClientResource client = new ClientResource( myURL ); 
+            String result = "" ;
+            
+            client.setOnResponse(new Uniform() {
+                public void handle(Request request, Response response) {
+                    try {
+                        JSONObject json_response = null;
+                        try {
+                            json_response = new JSONObject( response.getEntity().getText() );
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                        }
+                
+                        // convert JSON string to Map
+                        ObjectMapper mapper = new ObjectMapper();
+                        try {
+                            map = mapper.readValue(json_response.toString(), new TypeReference<Map<String, String>>(){});
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        
+                        //code for fetching scores from server : end
+                        
+                        //sorting and displying player names and scores 
+                        Map<String, String> sortedMap = sortByValue(map);
+                        
+                        for(Map.Entry entry : sortedMap.entrySet()){
+                            scoreboardTempString = scoreboardTempString + entry.getKey() + ": " + entry.getValue() + "\n";
+                        }
+                        
+                        
+                    } catch (Exception e) {
+                         e.printStackTrace();
+                    }finally{
+                        prevReqFinished = true;
+                        currTime = System.currentTimeMillis();
+                    }
+                }
+            });
+            // get scores
+            client.get() ; 
+            GreenfootImage textImage = new GreenfootImage(scoreboardTempString, 36, Color.black, Color.WHITE);
+            //this.getImage().drawImage(textImage,20,7);
+            Font myFont = new Font ("Courier New", 1, 20);
+            this.getImage().setFont (myFont);
+            this.getImage().drawString(scoreboardTempString, 45,35 ); 
+            
+        }
     }
     
     public ScoreBoard(){
-        this.getImage().clear();
-        map.put("sid",2);
-        map.put("aditya",2);
-        map.put("rushi",3);
-        map.put("gagan",4);
-        map.put("tanmay",5);
+        this.getImage().scale(200, 200);
+        currTime = System.currentTimeMillis();
+        
     }
     
-    private static Map<String, Integer> sortByValue(Map<String, Integer> unsortMap) {
+    private static Map<String, String> sortByValue(Map<String, String> unsortMap) {
 
-        // 1. Convert Map to List of Map
-        List<Map.Entry<String, Integer>> list =
-                new LinkedList<Map.Entry<String, Integer>>(unsortMap.entrySet());
+        List<Map.Entry<String, String>> list =
+                new LinkedList<Map.Entry<String, String>>(unsortMap.entrySet());
 
-        // 2. Sort list with Collections.sort(), provide a custom Comparator
-        //    Try switch the o1 o2 position for a different order
-        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
-            public int compare(Map.Entry<String, Integer> o1,
-                               Map.Entry<String, Integer> o2) {
+        Collections.sort(list, new Comparator<Map.Entry<String, String>>() {
+            public int compare(Map.Entry<String, String> o1,
+                               Map.Entry<String, String> o2) {
                 return (o2.getValue()).compareTo(o1.getValue());
             }
         });
 
-        // 3. Loop the sorted list and put it into a new insertion order Map LinkedHashMap
-        Map<String, Integer> sortedMap = new LinkedHashMap<String, Integer>();
-        for (Map.Entry<String, Integer> entry : list) {
+        Map<String, String> sortedMap = new LinkedHashMap<String, String>();
+        for (Map.Entry<String, String> entry : list) {
             sortedMap.put(entry.getKey(), entry.getValue());
         }
-
-        /*
-        //classic iterator example
-        for (Iterator<Map.Entry<String, Integer>> it = list.iterator(); it.hasNext(); ) {
-            Map.Entry<String, Integer> entry = it.next();
-            sortedMap.put(entry.getKey(), entry.getValue());
-        }*/
-
 
         return sortedMap;
     }
