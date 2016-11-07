@@ -59,6 +59,8 @@ public class Ship extends Actor
             this.island = destinationIsland;
             fuelLeft = fuelTempVar;
             
+            updateScoreboard();
+        
             //check if reached treaureIsland
             if(this.island.getClass().getName().equalsIgnoreCase("TreasureIsland")){
                this.island.setImage("Treasure.png");
@@ -76,7 +78,29 @@ public class Ship extends Actor
             }
         }
     }
-    
+    public void updateScoreboard(){
+
+        String myURL = "http://localhost:8080/treasureHunt/updateScore";
+        ClientResource client = new ClientResource( myURL ); 
+        String fuel = Integer.toString(fuelLeft);
+       
+        System.out.println("Sending a score");
+        
+
+        try {
+            
+            JSONObject jo = new JSONObject();
+            jo.put("playerName", playerName);
+            jo.put("fuelLeft", fuel);
+
+            client.post(new JsonRepresentation(jo));
+
+            System.out.println("Score sent");
+            
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
+    }   
     public Island getIsland(){
         return this.island;
     }
