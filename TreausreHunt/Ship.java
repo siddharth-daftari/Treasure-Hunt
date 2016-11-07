@@ -3,11 +3,19 @@ import java.util.*;
 import java.awt.Color;
 import java.awt.Color.*;
 
-/*
-Ship class implements logic to move a ship from source to destination island in  moveToIsland(destinationisland,route)
-Additionally, it also calculates fuel it took to travel
- @author (Tanmay) 
-*/
+import org.json.* ;
+import org.restlet.resource.*;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.restlet.Uniform;
+import org.restlet.Request;
+import org.restlet.Response;
+import org.restlet.representation.* ;
+import org.restlet.ext.json.* ;
+import org.restlet.data.* ;
+import java.net.*;
+
 public class Ship extends Actor
 {
     private Island island;
@@ -37,11 +45,11 @@ public class Ship extends Actor
             int destinationIslandX = destinationIsland.getX();
             int destinationIslandY = destinationIsland.getY();
             
-            //calculating the distance between islands
+             //calculating the distance between islands
             int distance = (int)Math.sqrt(Math.pow(destinationIslandX - sourceIslandX, 2) + Math.pow(destinationIslandY - sourceIslandY, 2));
              
             for(int i=0;i<distance;i= i + SHIP_STEP){
-                 
+                
                 //logic for breaking the loop when ship is in vicinity of destination island
                 islandList = getObjectsInRange(5,Island.class);
                 if(!islandList.isEmpty() && islandList.get(0).getX() == destinationIsland.getX() && islandList.get(0).getY() == destinationIsland.getY()){
@@ -59,15 +67,17 @@ public class Ship extends Actor
             this.island = destinationIsland;
             fuelLeft = fuelTempVar;
             
+            //U
             updateScoreboard();
         
             //check if reached treaureIsland
             if(this.island.getClass().getName().equalsIgnoreCase("TreasureIsland")){
                this.island.setImage("Treasure.png");
                this.island.getImage().scale(150,150);
-               Greenfoot.stop();
+               
+               //Notify the server 
+               notifyReached();
             }
-            
         }
         else{
             //display message and end the game
@@ -77,7 +87,8 @@ public class Ship extends Actor
                 messageList.get(0).setImage(new GreenfootImage("You do not have sufficient fuel to travel." , 15, Color.black, Color.RED));
             }
         }
-    }
+    } 
+    
     public void updateScoreboard(){
 
         String myURL = "http://localhost:8080/treasureHunt/updateScore";
@@ -100,8 +111,28 @@ public class Ship extends Actor
         } catch(JSONException e) {
             e.printStackTrace();
         }
-    }   
-    public Island getIsland(){
+    }
+    public void notifyReached(){
+        
+       String myURL = "http://localhost:8080/treasureHunt/notifyreached";
+       ClientResource client = new ClientResource(myURL);         
+       
+       System.out.println("Notifying that i reached");               
+       
+       try {
+            JSONObject jo = new JSONObject();
+            jo.put("playerName", playerName);
+            
+            client.post(new JsonRepresentation(jo));
+            
+            System.out.println("Notifying request sent");
+            
+       }catch(JSONException e) {
+            e.printStackTrace();
+       }       
+    //   Greenfoot.stop();    
+    }
+   public Island getIsland(){
         return this.island;
     }
     
@@ -123,5 +154,5 @@ public class Ship extends Actor
     
     public void setFuelLeft(int fuelLeft){
         this.fuelLeft = fuelLeft;
-    }
+    }    
 }
