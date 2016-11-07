@@ -24,9 +24,10 @@ public class ScoreBoard extends Actor
     public static long currTime = 0;
     public static boolean prevReqFinished = true;
     public static String scoreboardTempString = "";
+    public GreenfootImage greenfootImage =null;
     
-    public void act(){
-        if(System.currentTimeMillis() - currTime > 10000 && prevReqFinished){
+     public void act(){
+        if(System.currentTimeMillis() - currTime > 2000 && prevReqFinished){
         
         prevReqFinished = false;
         Thread myThread = new Thread ( 
@@ -96,19 +97,26 @@ public class ScoreBoard extends Actor
             });
             // get scores
             client.get() ; 
+            
             GreenfootImage textImage = new GreenfootImage(scoreboardTempString, 36, Color.black, Color.WHITE);
+            this.getImage().clear();
+            this.setImage("schein-treasure-map-hi.png");
+            this.getImage().scale(250, 250);
             //this.getImage().drawImage(textImage,20,7);
             Font myFont = new Font ("Courier New", 1, 20);
-            this.getImage().setFont (myFont);
-            this.getImage().drawString(scoreboardTempString, 45,35 ); 
+            //this.getImage().clear();
+            this.getImage().setFont(myFont);
+            //TreasureHuntWorld treasureHuntWorld = (TreasureHuntWorld) getWorld();
+            //this.setImage(treasureHuntWorld.getScoreboardImage());
+            this.getImage().drawString(scoreboardTempString, 65,55 ); 
             
         }
     }
     
     public ScoreBoard(){
-        this.getImage().scale(200, 200);
+        this.getImage().scale(250, 250);
         currTime = System.currentTimeMillis();
-        
+        greenfootImage = new GreenfootImage(this.getImage());
     }
     
     private static Map<String, String> sortByValue(Map<String, String> unsortMap) {
