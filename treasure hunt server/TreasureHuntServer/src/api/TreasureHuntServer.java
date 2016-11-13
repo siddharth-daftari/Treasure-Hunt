@@ -1,4 +1,4 @@
-kage api ;
+package api ;
 
 import treasureHunt.TreasureHunt;
 import org.restlet.*;
