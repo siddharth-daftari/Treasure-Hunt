@@ -1,10 +1,13 @@
 #BlueJ class context
 comment0.target=RouteB
-comment0.text=\n\ Write\ a\ description\ of\ class\ RouteB\ here.\n\ \n\ @author\ (your\ name)\ \n\ @version\ (a\ version\ number\ or\ a\ date)\n
 comment1.params=
 comment1.target=void\ act()
 comment2.params=islandRouteBelongsTo
 comment2.target=void\ setIslandRouteBelongsTo(Island)
 comment3.params=
 comment3.target=Island\ getIslandRouteBelongsTo()
-numComments=4
+comment4.params=fuelNeeded
+comment4.target=void\ setFuelNeeded(int)
+comment5.params=
+comment5.target=int\ getFuelNeeded()
+numComments=6
