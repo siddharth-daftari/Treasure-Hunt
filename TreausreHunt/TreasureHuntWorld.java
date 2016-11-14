@@ -1,9 +1,14 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.awt.Font;
+import java.awt.Color;
 
 public class TreasureHuntWorld extends World
 {
 
+    private String playerName;
     private Ship ship;
+    private GreenfootImage scoreboardImage;
+    
     /**
      * Constructor for objects of class MyWorld.
      * 
@@ -12,6 +17,14 @@ public class TreasureHuntWorld extends World
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(1000, 550, 1); 
+        prepare();
+    }
+    
+    public TreasureHuntWorld(String playerName) 
+    {    
+        // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
+        super(1000, 550, 1); 
+        this.playerName = playerName;
         prepare();
     }
 
@@ -93,6 +106,7 @@ public class TreasureHuntWorld extends World
         Ship ship = new Ship();
         addObject(ship,117,389);
         ship.setIsland(otherisland);
+        ship.setPlayerName(playerName);
         otherisland.setHasShip(true);
         this.ship = ship;
 
@@ -141,10 +155,25 @@ public class TreasureHuntWorld extends World
         message.setLocation(209,507);
 
         ScoreBoard scoreboard = new ScoreBoard();
-        addObject(scoreboard,785,152);
+        addObject(scoreboard,845,297);
+        setScoreboardImage(scoreboard.getImage());
 
+        /*
+         * starting game
+         */
+        //Greenfoot.start();
+
+        scoreboard.setLocation(831,298);
     }
-    
+
+    public void setScoreboardImage(GreenfootImage scoreboardImage)
+    {
+        this.scoreboardImage = scoreboardImage;
+    }
+    public GreenfootImage getScoreboardImage()
+    {
+        return scoreboardImage;
+    }
     public Ship getShip()
     {
         return this.ship;
