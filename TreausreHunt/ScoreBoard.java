@@ -2,9 +2,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.*;
 import java.awt.Color;
 import java.awt.Font;
-
 import java.net.* ;
-import java.util.* ;
 import java.io.* ;
 import org.json.* ;
 import org.restlet.resource.*;
@@ -57,6 +55,7 @@ public class ScoreBoard extends Actor
             String myURL = "http://localhost:8080/treasureHunt/getscore";
             ClientResource client = new ClientResource( myURL ); 
             String result = "" ;
+            String timeup = null;
             
             client.setOnResponse(new Uniform() {
                 public void handle(Request request, Response response) {
@@ -72,6 +71,12 @@ public class ScoreBoard extends Actor
                         ObjectMapper mapper = new ObjectMapper();
                         try {
                             map = mapper.readValue(json_response.toString(), new TypeReference<Map<String, String>>(){});
+                            
+                             if(map.get("timeup").equals("true")){
+                                 getWinners();
+                                 Greenfoot.stop();
+                             }
+                             map.remove("timeup");
                         } catch (IOException e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
@@ -137,5 +142,28 @@ public class ScoreBoard extends Actor
         }
 
         return sortedMap;
+    }
+    
+    public void getWinners(){
+        //code for fetching scores from server : start
+        System.out.println("Getting list of winners");
+        String myURL = "http://localhost:8080/treasureHunt/getwinners";
+        ClientResource client = new ClientResource( myURL ); 
+        String result = "" ;
+        String timeup = null;
+        client.setOnResponse(new Uniform() {
+            public void handle(Request request, Response response) {
+                try {
+                    JSONObject json_response = null;
+                    json_response = new JSONObject( response.getEntity().getText() );
+//                    System.out.println("Response from server for list of winnders" + json_response.toString());
+                    System.out.println(json_response.getString("Winners"));
+                  
+                }catch (JSONException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });  
+        client.get(); 
     }
 }
