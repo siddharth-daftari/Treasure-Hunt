@@ -15,5 +15,9 @@ public class TreasureIsland extends Island
     public void act() 
     {
         // Add your action code here.
-    }    
+    } 
+    
+    public TreasureIsland(){
+        this.getImage().scale(150,150);
+    }
 }
