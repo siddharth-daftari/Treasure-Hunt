@@ -95,7 +95,7 @@ public class Ship extends Actor
         ClientResource client = new ClientResource( myURL ); 
         String fuel = Integer.toString(fuelLeft);
        
-        System.out.println("Sending a score");
+//        System.out.println("Sending a score");
         
 
         try {
@@ -106,18 +106,19 @@ public class Ship extends Actor
 
             client.post(new JsonRepresentation(jo));
 
-            System.out.println("Score sent");
+          //  System.out.println("Score sent");
             
         } catch(JSONException e) {
             e.printStackTrace();
         }
     }
+    
     public void notifyReached(){
         
        String myURL = "http://localhost:8080/treasureHunt/notifyreached";
        ClientResource client = new ClientResource(myURL);         
        
-       System.out.println("Notifying that i reached");               
+     //  System.out.println("Notifying that i reached");               
        
        try {
             JSONObject jo = new JSONObject();
