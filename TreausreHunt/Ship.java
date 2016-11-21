@@ -25,6 +25,7 @@ public class Ship extends Actor
     public static final int LOW_FUEL_MARK = 1000;
     public static final int MEDIUM_FUEL_MARK = 2000;
     private int fuelLeft = INITAL_FUEL_LEFT;
+    private ArrayList<ShipObserver> observers = new ArrayList<ShipObserver>();
     
     public void act() 
     {
@@ -136,6 +137,15 @@ public class Ship extends Actor
    public Island getIsland(){
         return this.island;
     }
+
+    public void setShipState(ShipState shipState)
+    {
+        this.shipState = shipState;
+        if(shipState == onTreasureIslandState)
+        {
+            notifyObservers();
+        }
+    }
     
     public void setIsland(Island island){
         this.island = island;
@@ -155,5 +165,12 @@ public class Ship extends Actor
     
     public void setFuelLeft(int fuelLeft){
         this.fuelLeft = fuelLeft;
-    }    
+    }  
+    public void notifyObservers()
+    {   
+        for(ShipObserver obj : observers)
+        {
+            obj.update();
+        }
+    }  
 }
