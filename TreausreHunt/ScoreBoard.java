@@ -9,7 +9,7 @@ import org.restlet.resource.*;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.restlet.Uniform;
+import org.restlet.Uniform; 
 import org.restlet.Request;
 import org.restlet.Response;
 import org.restlet.representation.* ;
@@ -77,6 +77,9 @@ public class ScoreBoard extends Actor
                                  Greenfoot.stop();
                              }
                              map.remove("timeup");
+                             TimeLeft.setTimeLeft(map.get("timeLeft"));
+                             System.out.println("Time Left: " + map.get("timeLeft"));
+                             map.remove("timeLeft");
                         } catch (IOException e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
@@ -156,8 +159,8 @@ public class ScoreBoard extends Actor
                 try {
                     JSONObject json_response = null;
                     json_response = new JSONObject( response.getEntity().getText() );
-//                    System.out.println("Response from server for list of winnders" + json_response.toString());
-                    System.out.println(json_response.getString("Winners"));
+                     // System.out.println("Response from server for list of winnders" + json_response.toString());
+                    System.out.println(json_response.get("Winners"));
                   
                 }catch (JSONException | IOException e) {
                     e.printStackTrace();
