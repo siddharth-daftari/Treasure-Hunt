@@ -96,6 +96,9 @@ public class TextField extends Actor
             // notify server of change of name
             updateNameOnServer();
             displayText();
+            
+        // Setting name in the Ship's class variable
+             
         }
     }
     
@@ -133,5 +136,11 @@ public class TextField extends Actor
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+    
+    public String getText() {
+       
+        return this.text;
+    }
+    
   
 }

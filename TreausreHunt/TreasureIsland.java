@@ -6,18 +6,52 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class TreasureIsland extends Island
+public class TreasureIsland extends Actor implements IslandInterface, ShipObserver
 {
-    /**
-     * Act - do whatever the TreasureIsland wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
+    
+    private boolean hasShip ;
+    private IslandInterface nextIslandA;
+    private IslandInterface nextIslandB;
+    
+ 
     public void act() 
     {
         // Add your action code here.
     } 
     
+    public void update()
+    {
+      this.setImage("Treasure.png");
+      this.getImage().scale(150,150);
+    }
+    
     public TreasureIsland(){
         this.getImage().scale(150,150);
+    }
+    
+    public boolean getHasShip(){ 
+        return this.hasShip;
+    }
+    
+    public void setHasShip(boolean hasShip){
+        this.hasShip = hasShip;
+    }
+    
+    
+    public IslandInterface getNextIslandA(){
+        return this.nextIslandA;
+    }
+    
+    public void setNextIslandA(IslandInterface nextIslandA){
+        this.nextIslandA = nextIslandA;
+    }
+    
+    
+    public IslandInterface getNextIslandB(){
+        return this.nextIslandB;
+    }
+    
+    public void setNextIslandB(IslandInterface nextIslandB){
+        this.nextIslandB = nextIslandB;
     }
 }
