@@ -1,0 +1,26 @@
+#BlueJ class context
+comment0.target=IslandInterface
+comment0.text=\n\ Write\ a\ description\ of\ class\ Island\ here.\n\ \n\ @author\ (your\ name)\ \n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=
+comment1.target=void\ act()
+comment10.params=
+comment10.target=greenfoot.GreenfootImage\ getImage()
+comment11.params=imageName
+comment11.target=void\ setImage(java.lang.String)
+comment2.params=
+comment2.target=boolean\ getHasShip()
+comment3.params=hasShip
+comment3.target=void\ setHasShip(boolean)
+comment4.params=
+comment4.target=IslandInterface\ getNextIslandA()
+comment5.params=nextIslandA
+comment5.target=void\ setNextIslandA(IslandInterface)
+comment6.params=
+comment6.target=IslandInterface\ getNextIslandB()
+comment7.params=nextIslandB
+comment7.target=void\ setNextIslandB(IslandInterface)
+comment8.params=
+comment8.target=int\ getX()
+comment9.params=
+comment9.target=int\ getY()
+numComments=12

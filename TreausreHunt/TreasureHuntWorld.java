@@ -2,6 +2,19 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.awt.Font;
 import java.awt.Color;
 
+import java.io.* ;
+import org.json.* ;
+import org.restlet.resource.*;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.restlet.Uniform;
+import org.restlet.Request;
+import org.restlet.Response; 
+import org.restlet.representation.* ;
+import org.restlet.ext.json.* ;
+import org.restlet.data.* ;
+
 public class TreasureHuntWorld extends World
 {
 
@@ -39,20 +52,23 @@ public class TreasureHuntWorld extends World
         /**********************
         declaring the Islands
          ***********************/
-
-        OtherIsland otherisland = new OtherIsland();
+        IslandFactory islandFactory = new IslandFactory();
+        String OTHER_ISLAND = "OTHER_ISLAND";
+        String TREASURE_ISLAND = "TREASURE_ISLAND";
+        
+        OtherIsland otherisland = (OtherIsland)islandFactory.getIsland(OTHER_ISLAND);
         addObject(otherisland,117,389);
 
-        OtherIsland otherisland2 = new OtherIsland();
+        OtherIsland otherisland2 = (OtherIsland)islandFactory.getIsland(OTHER_ISLAND);
         addObject(otherisland2,117,104);
 
-        OtherIsland otherisland3 = new OtherIsland();
+        OtherIsland otherisland3 = (OtherIsland)islandFactory.getIsland(OTHER_ISLAND);
         addObject(otherisland3,602,334);
 
-        OtherIsland otherisland4 = new OtherIsland();
+        OtherIsland otherisland4 = (OtherIsland)islandFactory.getIsland(OTHER_ISLAND);
         addObject(otherisland4,345,235);
 
-        TreasureIsland treasureisland = new TreasureIsland();
+        TreasureIsland treasureisland = (TreasureIsland)islandFactory.getIsland(TREASURE_ISLAND);
         addObject(treasureisland,519,84);
 
         /**********************
@@ -103,12 +119,11 @@ public class TreasureHuntWorld extends World
         declaring the Ship
          ***********************/
 
-        Ship ship = new Ship();
+        ship = new Ship();
         addObject(ship,117,389);
         ship.setIsland(otherisland);
         ship.setPlayerName(playerName);
         otherisland.setHasShip(true);
-        this.ship = ship;
 
         /**********************
         Setting up routes
@@ -157,13 +172,15 @@ public class TreasureHuntWorld extends World
         ScoreBoard scoreboard = new ScoreBoard();
         addObject(scoreboard,845,297);
         setScoreboardImage(scoreboard.getImage());
-
-        /*
-         * starting game
-         */
-        //Greenfoot.start();
-
-        scoreboard.setLocation(831,298);
+        scoreboard.setLocation(831,298);      
+        
+        TimeLeft timeLeft = new TimeLeft();
+        addObject(timeLeft,800,100);
+        
+        ship.attach(message);
+        ship.attach(treasureisland);
+        
+        registerPlayer();
     }
 
     public void setScoreboardImage(GreenfootImage scoreboardImage)
@@ -177,5 +194,27 @@ public class TreasureHuntWorld extends World
     public Ship getShip()
     {
         return this.ship;
+    }
+    
+    public void registerPlayer()
+    {
+       String myURL = "http://localhost:8080/treasureHunt/register";
+       ClientResource client = new ClientResource(myURL);         
+       String fuel = Integer.toString(ship.getFuelLeft());
+       //  System.out.println("Notifying that i reached");               
+       
+       try {
+            JSONObject jo = new JSONObject();
+            jo.put("playerName", playerName);
+            jo.put("fuel",fuel);
+            JsonRepresentation tempVar = new JsonRepresentation(jo);
+            System.out.println(jo);
+            client.post(tempVar);
+            
+            System.out.println("Notifying request sent");
+            
+       }catch(JSONException e) {
+            e.printStackTrace();
+       }    
     }
 }
