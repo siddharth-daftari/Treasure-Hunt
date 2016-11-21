@@ -1,6 +1,10 @@
 package treasureHunt;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class TreasureHunt {
@@ -8,6 +12,8 @@ public class TreasureHunt {
 	private Map<String,Object> map = new HashMap<String, Object>();
 	private ArrayList winnerList = new ArrayList(); 
 	public static int timeLeft=0;
+	public final static long GAME_MAX_TIME = 99999;
+	
 	public TreasureHunt() {
 		
 		treasureHunt = this;
@@ -23,7 +29,7 @@ public class TreasureHunt {
 		    	timeLeft++;
 		    	//System.out.println("time is: " + timeLeft);
 			    
-		    	if(timeLeft == 40)
+		    	if(timeLeft == GAME_MAX_TIME)
 		    	{
 		    	    System.out.println("time's up : " + timeLeft);
 		    		timer.cancel();
