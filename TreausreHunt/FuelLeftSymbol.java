@@ -2,9 +2,11 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 import java.awt.Color;
 import java.awt.Color.*;
+import java.awt.Font;
 
 public class FuelLeftSymbol extends Actor
 {
+    FuelLeftSymbolMaker fuelLeftSymbolMaker;
     /**
      * Act - do whatever the FuelLeftSymbol wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -16,15 +18,17 @@ public class FuelLeftSymbol extends Actor
        Ship s = treasureHuntWorld.getShip();
        this.getImage().clear();
        if(fuelLeft <= Ship.LOW_FUEL_MARK){
-           this.setImage(new GreenfootImage("Fuel Left: " + fuelLeft , 36, Color.black, Color.RED));
+           fuelLeftSymbolMaker.drawLowFuelLeftSymbol(this, fuelLeft);
        }else if(fuelLeft <= Ship.MEDIUM_FUEL_MARK){
-           this.setImage(new GreenfootImage("Fuel Left: " + fuelLeft , 36, Color.black, Color.YELLOW));
+           fuelLeftSymbolMaker.drawMediumFuelLeftSymbol(this, fuelLeft);
        }else{
-           this.setImage(new GreenfootImage("Fuel Left: " + fuelLeft , 36, Color.black, Color.GREEN));
+           fuelLeftSymbolMaker.drawSufficientFuelLeftSymbol(this, fuelLeft);
        }
     } 
     
     public FuelLeftSymbol(){
-        setImage(new GreenfootImage("Fuel Left: " + Ship.INITAL_FUEL_LEFT , 36, Color.black, Color.GREEN));
+        //setImage(new GreenfootImage("Fuel Left: " + Ship.INITAL_FUEL_LEFT , 36, Color.black, Color.GREEN));
+        this.getImage().clear();
+        fuelLeftSymbolMaker = new FuelLeftSymbolMaker();
     }
 }
