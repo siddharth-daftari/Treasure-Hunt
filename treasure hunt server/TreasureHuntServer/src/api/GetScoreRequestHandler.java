@@ -24,12 +24,18 @@ private GetRequestHandler successor = null;
 		String json = null;
 		
 		if(requestedAction.equalsIgnoreCase("getscore")){
-			System.out.println("Received Get Score request");
+			System.out.println("Received Get Score reqtuest");
 			
-    		if(treasureHunt.timeLeft == TreasureHunt.GAME_MAX_TIME){
+    		if(TreasureHunt.timeLeft >= TreasureHunt.GAME_MAX_TIME){
             	map.put("timeup", "true");
             	
             }
+    		System.out.println("total players 	are : " + treasureHunt.totalPlayers);
+    		System.out.println("Total winners are + " + treasureHunt.getWinnerList().size());
+    		if(treasureHunt.totalPlayers == treasureHunt.getWinnerList().size())
+    		{
+    			map.put("allreached","true");
+    		}
     		map.put("timeLeft", TreasureHunt.GAME_MAX_TIME - treasureHunt.timeLeft);
 	     	try {
 	     		json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
@@ -44,6 +50,7 @@ private GetRequestHandler successor = null;
             if ( successor != null )
                 return successor.handleRequest(requestedAction);
         }
+		System.out.println(json);
 		return json;
 	}
 }

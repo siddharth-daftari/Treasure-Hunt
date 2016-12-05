@@ -40,17 +40,17 @@ public class OnTreasureIslandState implements ShipState
     
     public void notifyReached(){
 
-      String myURL = "http://localhost:8080/treasureHunt/notifyreached";
+      String myURL = TreasureHuntWorld.BASE_URL + "/notifyreached";
       ClientResource client = new ClientResource(myURL);         
        
-      //  System.out.println("Notifying that i reached");                
+      //  //System.out.println("Notifying that i reached");                
        try {
             JSONObject jo = new JSONObject();
             jo.put("playerName", ship.getPlayerName());
             
             client.post(new JsonRepresentation(jo));
             
-            System.out.println("Notifying request sent");
+            //System.out.println("Notifying request sent");
             
        }catch(JSONException e) {
             e.printStackTrace();

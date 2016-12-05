@@ -23,12 +23,13 @@ public class ScoreBoard extends Actor
     public static boolean prevReqFinished = true;
     public static String scoreboardTempString = "";
     public GreenfootImage greenfootImage =null;
+    Thread myThread;
     
      public void act(){
         if(System.currentTimeMillis() - currTime > 2000 && prevReqFinished){
         
         prevReqFinished = false;
-        Thread myThread = new Thread ( 
+        myThread = new Thread ( 
                new Runnable() 
                {
                     public void run() 
@@ -38,8 +39,9 @@ public class ScoreBoard extends Actor
                }
          ) ;
          try {
-         myThread.start() ;} catch ( Exception e ) {
-         System.out.println( "ERROR: " + e.getMessage() );
+             myThread.start() ;
+        } catch ( Exception e ) {
+         //System.out.println( "ERROR: " + e.getMessage() );
       }
         }
     }
@@ -52,7 +54,7 @@ public class ScoreBoard extends Actor
             scoreboardTempString = "";
             
             //code for fetching scores from server : start
-            String myURL = "http://localhost:8080/treasureHunt/getscore";
+            String myURL = TreasureHuntWorld.BASE_URL + "/getscore";
             ClientResource client = new ClientResource( myURL ); 
             String result = "" ;
             String timeup = null;
@@ -63,7 +65,7 @@ public class ScoreBoard extends Actor
                         JSONObject json_response = null;
                         try {
                             json_response = new JSONObject( response.getEntity().getText() );
-                        } catch (JSONException | IOException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                 
@@ -72,13 +74,12 @@ public class ScoreBoard extends Actor
                         try {
                             map = mapper.readValue(json_response.toString(), new TypeReference<Map<String, String>>(){});
                             
-                             if(map.get("timeup").equals("true")){
+                             if(map.get("timeup").equals("true") || map.get("allreached").equals("true")){
                                  getWinners();
-                                 Greenfoot.stop();
                              }
+                             map.remove("allreached");
                              map.remove("timeup");
                              TimeLeft.setTimeLeft(map.get("timeLeft"));
-                             System.out.println("Time Left: " + map.get("timeLeft"));
                              map.remove("timeLeft");
                         } catch (IOException e) {
                             // TODO Auto-generated catch block
@@ -89,6 +90,7 @@ public class ScoreBoard extends Actor
                         
                         //sorting and displying player names and scores 
                         Map<String, String> sortedMap = sortByValue(map);
+                        
                         
                         for(Map.Entry entry : sortedMap.entrySet()){
                             scoreboardTempString = scoreboardTempString + entry.getKey() + ": " + entry.getValue() + "\n";
@@ -109,20 +111,20 @@ public class ScoreBoard extends Actor
             GreenfootImage textImage = new GreenfootImage(scoreboardTempString, 36, Color.black, Color.WHITE);
             this.getImage().clear();
             this.setImage("schein-treasure-map-hi.png");
-            this.getImage().scale(250, 250);
+            this.getImage().scale(300, 250);
             //this.getImage().drawImage(textImage,20,7);
             Font myFont = new Font ("Courier New", 1, 20);
             //this.getImage().clear();
             this.getImage().setFont(myFont);
             //TreasureHuntWorld treasureHuntWorld = (TreasureHuntWorld) getWorld();
             //this.setImage(treasureHuntWorld.getScoreboardImage());
-            this.getImage().drawString(scoreboardTempString, 65,55 ); 
+            this.getImage().drawString(scoreboardTempString, 20,50 ); 
             
         }
     }
     
     public ScoreBoard(){
-        this.getImage().scale(250, 250);
+        this.getImage().scale(300, 250);
         currTime = System.currentTimeMillis();
         greenfootImage = new GreenfootImage(this.getImage());
     }
@@ -135,11 +137,12 @@ public class ScoreBoard extends Actor
         Collections.sort(list, new Comparator<Map.Entry<String, String>>() {
             public int compare(Map.Entry<String, String> o1,
                                Map.Entry<String, String> o2) {
-                return (o2.getValue()).compareTo(o1.getValue());
+                //return (o2.getValue()).compareTo(o1.getValue());
+                return Integer.compare(Integer.parseInt(o2.getValue()), Integer.parseInt(o1.getValue()));
             }
         });
-
         Map<String, String> sortedMap = new LinkedHashMap<String, String>();
+        
         for (Map.Entry<String, String> entry : list) {
             sortedMap.put(entry.getKey(), entry.getValue());
         }
@@ -149,20 +152,37 @@ public class ScoreBoard extends Actor
     
     public void getWinners(){
         //code for fetching scores from server : start
-        System.out.println("Getting list of winners");
-        String myURL = "http://localhost:8080/treasureHunt/getwinners";
+        //System.out.println("Getting list of winners");
+        String myURL = TreasureHuntWorld.BASE_URL + "/getwinners";
         ClientResource client = new ClientResource( myURL ); 
         String result = "" ;
         String timeup = null;
         client.setOnResponse(new Uniform() {
             public void handle(Request request, Response response) {
+                Map<String,String> tempmap = new HashMap();
+                String winners = null;
+                String[] winnerslist = null;
+        
                 try {
                     JSONObject json_response = null;
-                    json_response = new JSONObject( response.getEntity().getText() );
-                     // System.out.println("Response from server for list of winnders" + json_response.toString());
-                    System.out.println(json_response.get("Winners"));
-                  
-                }catch (JSONException | IOException e) {
+                    json_response = new JSONObject( response.getEntity().getText());
+                    winners = json_response.get("Winners").toString();
+                    //                    winners.replaceAll("[","");
+                    //winners.replaceAll("]","");
+                    //System.out.println("winner are finally  : " + winners);
+                    Set<String> playerset = map.keySet();
+                    Iterator<String> iterator = playerset.iterator();
+                    while(iterator.hasNext())
+                    {
+                        String name = iterator.next();
+                        if(winners.indexOf(name) !=-1)
+                        {
+                            //System.out.println("I found a keyword " + name);
+                            tempmap.put(name,map.get(name));
+                        }
+                    }
+                    Greenfoot.setWorld(new WinnerWorld(tempmap));
+                }catch (Exception e) {
                     e.printStackTrace();
                 }
             }

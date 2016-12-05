@@ -22,7 +22,11 @@ public class TreasureHuntWorld extends World
     private Ship ship;
     private GreenfootImage scoreboardImage;
     
-    /**
+    public final static String BASE_URL = "http://treasure-hunt-app3-03a01f76-1.b9e15ebf.cont.dockerapp.io:8081/treasureHunt";
+    //public final static String BASE_URL = "http://localhost:8081/treasureHunt";
+    boolean isRequestValid = true;
+    
+    /*
      * Constructor for objects of class MyWorld.
      * 
      */
@@ -30,7 +34,6 @@ public class TreasureHuntWorld extends World
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(1000, 550, 1); 
-        prepare();
     }
     
     public TreasureHuntWorld(String playerName) 
@@ -39,6 +42,17 @@ public class TreasureHuntWorld extends World
         super(1000, 550, 1); 
         this.playerName = playerName;
         prepare();
+        
+    }
+    
+    public void act(){
+        if(!isRequestValid){
+                this.removeObjects(this.getObjects(Actor.class));
+                //Startgame gw = (Startgame) getWorld();
+                //System.out.println("Valid request atleast");
+                Greenfoot.stop();
+                Greenfoot.setWorld(new Startgame());
+            }
     }
 
     /**
@@ -163,7 +177,7 @@ public class TreasureHuntWorld extends World
 
         FuelLeftSymbol fuelleftsymbol = new FuelLeftSymbol();
         addObject(fuelleftsymbol,787,163);
-        fuelleftsymbol.setLocation(778,507);
+        fuelleftsymbol.setLocation(825,110);
 
         Message message = new Message();
         addObject(message,72,505);
@@ -172,15 +186,16 @@ public class TreasureHuntWorld extends World
         ScoreBoard scoreboard = new ScoreBoard();
         addObject(scoreboard,845,297);
         setScoreboardImage(scoreboard.getImage());
-        scoreboard.setLocation(831,298);      
+        scoreboard.setLocation(831,400);      
         
         TimeLeft timeLeft = new TimeLeft();
-        addObject(timeLeft,800,100);
+        addObject(timeLeft,825,50);
         
         ship.attach(message);
         ship.attach(treasureisland);
         
         registerPlayer();
+        
     }
 
     public void setScoreboardImage(GreenfootImage scoreboardImage)
@@ -198,7 +213,7 @@ public class TreasureHuntWorld extends World
     
     public void registerPlayer()
     {
-       String myURL = "http://localhost:8080/treasureHunt/register";
+       String myURL = BASE_URL + "/register";
        ClientResource client = new ClientResource(myURL);         
        String fuel = Integer.toString(ship.getFuelLeft());
        //  System.out.println("Notifying that i reached");               
@@ -208,11 +223,26 @@ public class TreasureHuntWorld extends World
             jo.put("playerName", playerName);
             jo.put("fuel",fuel);
             JsonRepresentation tempVar = new JsonRepresentation(jo);
-            System.out.println(jo);
+            
+            
+            client.setOnResponse(new Uniform() {
+                public void handle(Request request, Response response) {
+                    try {
+                        JSONObject json_response = null;
+                        
+                        json_response = new JSONObject( response.getEntity().getText() );
+                        // convert JSON string to Map
+                        ObjectMapper mapper = new ObjectMapper();
+                        
+                        isRequestValid = json_response.getBoolean("isRequestValid");
+                        
+                        //System.out.println("There sesponse campe from server is :" + isRequestValid);
+                        
+                }catch (Exception e) {
+                         e.printStackTrace();
+                }
+            }});
             client.post(tempVar);
-            
-            System.out.println("Notifying request sent");
-            
        }catch(JSONException e) {
             e.printStackTrace();
        }    

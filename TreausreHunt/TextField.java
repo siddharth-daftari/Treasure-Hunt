@@ -19,13 +19,13 @@ public class TextField extends Actor
     
     private Color bgColor = Color.white;
     private Color textColor = Color.black;
-    
-    public TextField(int width, int height, Color bgColor, Color textColor, String text, int fontSize) throws IllegalArgumentException {
+    private static int MAX_LENGTH = 12;
+public TextField(int width, int height, Color bgColor, Color textColor, String text, int fontSize) throws IllegalArgumentException {
         
         this.bgColor = bgColor;
         this.textColor = textColor;
         this.text = text;
-        this.enabled = true;
+        this.enabled = false;
         cursorPosition = text.length();
         this.getImage().clear();
         this.getImage().scale(width, height);
@@ -34,15 +34,21 @@ public class TextField extends Actor
         displayText();
     }
     
-    /**
+    /** 
      * Control the TextFields action.
      */
     public void act() {
         if (Greenfoot.mouseClicked(this)) {
-            enabled = true;
+            if(!enabled){
+                enabled = true;
+                cursorActive = true;
+                //text = "";
+            }
+            
         }
-        if (enabled) {
+        if (enabled ) {
             input = Greenfoot.getKey();
+            
             if (input == "backspace" && text.length() != 0 && cursorPosition != 0) {
                 if (cursorPosition == text.length()) {
                     text = text.substring(0, text.length()-1);
@@ -55,7 +61,7 @@ public class TextField extends Actor
                 }
                 cursorPosition--;
             }
-            else if (input == "space") {
+            else if (input == "space"  && text.length() < MAX_LENGTH) {
                 if (cursorPosition == text.length()) {
                     text += " ";
                 }
@@ -80,7 +86,7 @@ public class TextField extends Actor
                     cursorActive = true;
                 }
             }
-            else if (input != null && input.length() == 1) {
+            else if (input != null && input.length() == 1  && text.length() < MAX_LENGTH) {
                 if (cursorPosition == text.length()) {
                     text += input;
                 }
@@ -93,17 +99,14 @@ public class TextField extends Actor
                 }
                 cursorPosition++;
             }
-            // notify server of change of name
-            updateNameOnServer();
+            
             displayText();
             
         // Setting name in the Ship's class variable
              
+        }else{
+            Greenfoot.getKey();
         }
-    }
-    
-    private void updateNameOnServer(){
-        
     }
     
     /**
